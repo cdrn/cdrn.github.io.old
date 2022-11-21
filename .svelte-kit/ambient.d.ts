@@ -41,6 +41,7 @@ declare module '$env/static/private' {
 	export const NVM_BIN: string;
 	export const npm_package_devDependencies_eslint_config_prettier: string;
 	export const NVM_INC: string;
+	export const npm_package_devDependencies__sveltejs_adapter_static: string;
 	export const npm_package_devDependencies_adapter_static_: string;
 	export const npm_package_devDependencies_svelte_preprocess: string;
 	export const GNOME_SHELL_SESSION_MODE: string;
@@ -181,6 +182,7 @@ declare module '$env/dynamic/private' {
 		NVM_BIN: string;
 		npm_package_devDependencies_eslint_config_prettier: string;
 		NVM_INC: string;
+		npm_package_devDependencies__sveltejs_adapter_static: string;
 		npm_package_devDependencies_adapter_static_: string;
 		npm_package_devDependencies_svelte_preprocess: string;
 		GNOME_SHELL_SESSION_MODE: string;
