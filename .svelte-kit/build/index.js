@@ -1,10 +1,10 @@
 
 import root from '__GENERATED__/root.svelte';
-import { respond } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.539_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/server/index.js';
-import { set_paths, assets, base } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.539_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/paths.js';
-import { set_prerendering } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.539_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env.js';
-import { set_private_env } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.539_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env-private.js';
-import { set_public_env } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.539_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env-public.js';
+import { respond } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.553_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/server/index.js';
+import { set_paths, assets, base } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.553_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/paths.js';
+import { set_prerendering, set_version } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.553_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env.js';
+import { set_private_env } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.553_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env-private.js';
+import { set_public_env } from '../../node_modules/.pnpm/@sveltejs+kit@1.0.0-next.553_svelte@3.52.0+vite@3.2.3/node_modules/@sveltejs/kit/src/runtime/env-public.js';
 
 const app_template = ({ head, body, assets, nonce }) => "<!DOCTYPE html>\n<html lang=\"en\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\t\t<link rel=\"icon\" href=\"" + assets + "/favicon.png\" />\n\t\t<meta name=\"viewport\" content=\"width=device-width\" />\n\t\t" + head + "\n\t</head>\n\t<body data-sveltekit-prefetch>\n\t\t<div>" + body + "</div>\n\t</body>\n</html>\n";
 
@@ -13,6 +13,7 @@ const error_template = ({ status, message }) => "<!DOCTYPE html>\n<html lang=\"e
 let read = null;
 
 set_paths({"base":"","assets":""});
+set_version("1669025935458");
 
 let default_protocol = 'https';
 
@@ -55,7 +56,8 @@ export class Server {
 			app_template,
 			app_template_contains_nonce: false,
 			error_template,
-			trailing_slash: "never"
+			trailing_slash: "never",
+			version: "1669025935458"
 		};
 	}
 

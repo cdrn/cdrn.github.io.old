@@ -5,7 +5,7 @@
 /// <reference types="@sveltejs/kit" />
 
 /**
- * Environment variables [loaded by Vite](https://vitejs.dev/guide/env-and-mode.html#env-files) from `.env` files and `process.env`. Like [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), this module cannot be imported into public-facing code. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env).
+ * Environment variables [loaded by Vite](https://vitejs.dev/guide/env-and-mode.html#env-files) from `.env` files and `process.env`. Like [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), this module cannot be imported into client-side code. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env).
  * 
  * _Unlike_ [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), the values exported from this module are statically injected into your bundle at build time, enabling optimisations like dead code elimination.
  * 
@@ -41,6 +41,7 @@ declare module '$env/static/private' {
 	export const NVM_BIN: string;
 	export const npm_package_devDependencies_eslint_config_prettier: string;
 	export const NVM_INC: string;
+	export const npm_package_devDependencies_adapter_static_: string;
 	export const npm_package_devDependencies_svelte_preprocess: string;
 	export const GNOME_SHELL_SESSION_MODE: string;
 	export const GTK_MODULES: string;
@@ -154,7 +155,7 @@ declare module '$env/static/public' {
 /**
  * This module provides access to runtime environment variables, as defined by the platform you're running on. For example if you're using [`adapter-node`](https://github.com/sveltejs/kit/tree/master/packages/adapter-node) (or running [`vite preview`](https://kit.svelte.dev/docs/cli)), this is equivalent to `process.env`. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env).
  * 
- * This module cannot be imported into public-facing code.
+ * This module cannot be imported into client-side code.
  * 
  * ```ts
  * import { env } from '$env/dynamic/private';
@@ -180,6 +181,7 @@ declare module '$env/dynamic/private' {
 		NVM_BIN: string;
 		npm_package_devDependencies_eslint_config_prettier: string;
 		NVM_INC: string;
+		npm_package_devDependencies_adapter_static_: string;
 		npm_package_devDependencies_svelte_preprocess: string;
 		GNOME_SHELL_SESSION_MODE: string;
 		GTK_MODULES: string;

@@ -40,46 +40,6 @@ ${components[1] ? `${validate_component(components[0] || missing_component, "sve
 
 ${``}`;
 });
-class HttpError {
-  constructor(status, body) {
-    this.status = status;
-    if (typeof body === "string") {
-      this.body = { message: body };
-    } else if (body) {
-      this.body = body;
-    } else {
-      this.body = { message: `Error: ${status}` };
-    }
-  }
-  toString() {
-    return JSON.stringify(this.body);
-  }
-}
-class Redirect {
-  constructor(status, location) {
-    this.status = status;
-    this.location = location;
-  }
-}
-class ValidationError {
-  constructor(status, data) {
-    this.status = status;
-    this.data = data;
-  }
-}
-function error(status, message) {
-  return new HttpError(status, message);
-}
-function json(data, init2) {
-  const headers = new Headers(init2 == null ? void 0 : init2.headers);
-  if (!headers.has("content-type")) {
-    headers.set("content-type", "application/json");
-  }
-  return new Response(JSON.stringify(data), {
-    ...init2,
-    headers
-  });
-}
 function negotiate(accept, types) {
   const parts = [];
   accept.split(",").forEach((str, i) => {
@@ -122,6 +82,33 @@ function is_content_type(request, ...types) {
 }
 function is_form_content_type(request) {
   return is_content_type(request, "application/x-www-form-urlencoded", "multipart/form-data");
+}
+class HttpError {
+  constructor(status, body) {
+    this.status = status;
+    if (typeof body === "string") {
+      this.body = { message: body };
+    } else if (body) {
+      this.body = body;
+    } else {
+      this.body = { message: `Error: ${status}` };
+    }
+  }
+  toString() {
+    return JSON.stringify(this.body);
+  }
+}
+class Redirect {
+  constructor(status, location) {
+    this.status = status;
+    this.location = location;
+  }
+}
+class ValidationError {
+  constructor(status, data) {
+    this.status = status;
+    this.data = data;
+  }
 }
 const escaped = {
   "<": "\\u003C",
@@ -520,6 +507,12 @@ function stringify_primitive(thing) {
     return `["BigInt","${thing}"]`;
   return String(thing);
 }
+function coalesce_to_error(err) {
+  return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
+}
+function normalize_error(error2) {
+  return error2;
+}
 function normalize_path(path, trailing_slash) {
   if (path === "/" || trailing_slash === "ignore")
     return path;
@@ -640,6 +633,7 @@ function static_error_page(options, status, message) {
   });
 }
 function handle_fatal_error(event, options, error2) {
+  error2 = error2 instanceof HttpError ? error2 : coalesce_to_error(error2);
   const status = error2 instanceof HttpError ? error2.status : 500;
   const body = handle_error_and_jsonify(event, options, error2);
   const type = negotiate(event.request.headers.get("accept") || "text/html", [
@@ -739,8 +733,6 @@ async function render_endpoint(event, mod, state) {
         status: error2.status,
         headers: { location: error2.location }
       });
-    } else if (error2 instanceof ValidationError) {
-      return json(error2.data, { status: error2.status });
     }
     throw error2;
   }
@@ -758,11 +750,18 @@ function is_endpoint_request(event) {
 function compact(arr) {
   return arr.filter((val) => val != null);
 }
-function coalesce_to_error(err) {
-  return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
+function error(status, message) {
+  return new HttpError(status, message);
 }
-function normalize_error(error2) {
-  return error2;
+function json(data, init2) {
+  const headers = new Headers(init2 == null ? void 0 : init2.headers);
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json");
+  }
+  return new Response(JSON.stringify(data), {
+    ...init2,
+    headers
+  });
 }
 function is_action_json_request(event) {
   const accept = negotiate(event.request.headers.get("accept") ?? "*/*", [
@@ -786,14 +785,16 @@ async function handle_action_json_request(event, options, server) {
   try {
     const data = await call_action(event, actions);
     if (data instanceof ValidationError) {
-      check_serializability(data.data, event.route.id, "data");
-      return action_json({ type: "invalid", status: data.status, data: data.data });
+      return action_json({
+        type: "invalid",
+        status: data.status,
+        data: stringify_action_response(data.data, event.route.id)
+      });
     } else {
-      check_serializability(data, event.route.id, "data");
       return action_json({
         type: "success",
         status: data ? 200 : 204,
-        data
+        data: stringify_action_response(data, event.route.id)
       });
     }
   } catch (e) {
@@ -903,30 +904,25 @@ function maybe_throw_migration_error(server) {
     }
   }
 }
-function check_serializability(value, id, path) {
-  const type = typeof value;
-  if (type === "string" || type === "boolean" || type === "number" || type === "undefined") {
-    return;
-  }
-  if (type === "object") {
-    if (!value)
-      return;
-    if (Array.isArray(value)) {
-      value.forEach((child, i) => {
-        check_serializability(child, id, `${path}[${i}]`);
-      });
-      return;
+function uneval_action_response(data, route_id) {
+  return try_deserialize(data, uneval, route_id);
+}
+function stringify_action_response(data, route_id) {
+  return try_deserialize(data, stringify, route_id);
+}
+function try_deserialize(data, fn, route_id) {
+  try {
+    return fn(data);
+  } catch (e) {
+    const error2 = e;
+    if ("path" in error2) {
+      let message = `Data returned from action inside ${route_id} is not serializable: ${error2.message}`;
+      if (error2.path !== "")
+        message += ` (data.${error2.path})`;
+      throw new Error(message);
     }
-    if (Object.getPrototypeOf(value) === Object.prototype) {
-      for (const key2 in value) {
-        check_serializability(value[key2], id, `${path}.${key2}`);
-      }
-      return;
-    }
+    throw error2;
   }
-  throw new Error(
-    `${path} returned from action in ${id} cannot be serialized as JSON without losing its original type` + (value instanceof Date ? " (Date objects are serialized as strings)" : "")
-  );
 }
 async function unwrap_promises(object) {
   var _a;
@@ -1543,6 +1539,7 @@ async function render_response({
   const { entry } = options.manifest._;
   const stylesheets = new Set(entry.stylesheets);
   const modulepreloads = new Set(entry.imports);
+  const fonts = new Set(options.manifest._.entry.fonts);
   const link_header_preloads = /* @__PURE__ */ new Set();
   const inline_styles = /* @__PURE__ */ new Map();
   let rendered;
@@ -1588,6 +1585,9 @@ async function render_response({
       }
       if (node.stylesheets) {
         node.stylesheets.forEach((url) => stylesheets.add(url));
+      }
+      if (node.fonts) {
+        node.fonts.forEach((url) => fonts.add(url));
       }
       if (node.inline_styles) {
         Object.entries(await node.inline_styles()).forEach(([k, v]) => inline_styles.set(k, v));
@@ -1640,7 +1640,7 @@ async function render_response({
     throw new Error(clarify_devalue_error(event, error3));
   }
   if (form_value) {
-    serialized.form = uneval(form_value);
+    serialized.form = uneval_action_response(form_value, event.route.id);
   }
   if (inline_styles.size > 0) {
     const content = Array.from(inline_styles.values()).join("\n");
@@ -1655,19 +1655,36 @@ async function render_response({
   }
   for (const dep of stylesheets) {
     const path = prefixed(dep);
-    const attributes = [];
-    if (csp.style_needs_nonce) {
-      attributes.push(`nonce="${csp.nonce}"`);
-    }
-    if (inline_styles.has(dep)) {
-      attributes.push("disabled", 'media="(max-width: 0)"');
-    } else {
-      const preload_atts = ['rel="preload"', 'as="style"'].concat(attributes);
-      link_header_preloads.add(`<${encodeURI(path)}>; ${preload_atts.join(";")}; nopush`);
-    }
-    attributes.unshift('rel="stylesheet"');
-    head += `
+    if (resolve_opts.preload({ type: "css", path })) {
+      const attributes = [];
+      if (csp.style_needs_nonce) {
+        attributes.push(`nonce="${csp.nonce}"`);
+      }
+      if (inline_styles.has(dep)) {
+        attributes.push("disabled", 'media="(max-width: 0)"');
+      } else {
+        const preload_atts = ['rel="preload"', 'as="style"'].concat(attributes);
+        link_header_preloads.add(`<${encodeURI(path)}>; ${preload_atts.join(";")}; nopush`);
+      }
+      attributes.unshift('rel="stylesheet"');
+      head += `
 		<link href="${path}" ${attributes.join(" ")}>`;
+    }
+  }
+  for (const dep of fonts) {
+    const path = prefixed(dep);
+    if (resolve_opts.preload({ type: "font", path })) {
+      const ext = dep.slice(dep.lastIndexOf(".") + 1);
+      const attributes = [
+        'rel="preload"',
+        'as="font"',
+        `type="font/${ext}"`,
+        `href="${path}"`,
+        "crossorigin"
+      ];
+      head += `
+		<link ${attributes.join(" ")}>`;
+    }
   }
   if (page_config.csr) {
     const init_app = `
@@ -1686,15 +1703,18 @@ async function render_response({
 				}` : "null"},
 				paths: ${s(options.paths)},
 				target: document.querySelector('[data-sveltekit-hydrate="${target}"]').parentNode,
-				trailing_slash: ${s(options.trailing_slash)}
+				trailing_slash: ${s(options.trailing_slash)},
+				version: ${s(options.version)}
 			});
 		`;
     for (const dep of modulepreloads) {
       const path = prefixed(dep);
-      link_header_preloads.add(`<${encodeURI(path)}>; rel="modulepreload"; nopush`);
-      if (state.prerendering) {
-        head += `
+      if (resolve_opts.preload({ type: "js", path })) {
+        link_header_preloads.add(`<${encodeURI(path)}>; rel="modulepreload"; nopush`);
+        if (state.prerendering) {
+          head += `
 		<link rel="modulepreload" href="${path}">`;
+        }
       }
     }
     const attributes = ['type="module"', `data-sveltekit-hydrate="${target}"`];
@@ -1712,10 +1732,11 @@ async function render_response({
     ).join("\n	")}`;
   }
   if (options.service_worker) {
+    const opts = options.dev ? `, { type: 'module' }` : "";
     const init_service_worker = `
 			if ('serviceWorker' in navigator) {
 				addEventListener('load', function () {
-					navigator.serviceWorker.register('${prefixed("service-worker.js")}');
+					navigator.serviceWorker.register('${prefixed("service-worker.js")}'${opts});
 				});
 			}
 		`;
@@ -2677,6 +2698,15 @@ function create_fetch({ event, options, state, get_cookie_header }) {
         if (request_body && typeof request_body !== "string" && !ArrayBuffer.isView(request_body)) {
           throw new Error("Request body must be a string or TypedArray");
         }
+        if (!request.headers.has("accept")) {
+          request.headers.set("accept", "*/*");
+        }
+        if (!request.headers.has("accept-language")) {
+          request.headers.set(
+            "accept-language",
+            event.request.headers.get("accept-language")
+          );
+        }
         response = await respond(request, options, state);
         const set_cookie = response.headers.get("set-cookie");
         if (set_cookie) {
@@ -2702,6 +2732,7 @@ function normalize_fetch_input(info, init2, url) {
 }
 const default_transform = ({ html }) => html;
 const default_filter = () => false;
+const default_preload = ({ type }) => type === "js" || type === "css";
 async function respond(request, options, state) {
   var _a, _b, _c;
   let url = new URL(request.url);
@@ -2758,7 +2789,7 @@ async function respond(request, options, state) {
   }
   const headers = {};
   const { cookies, new_cookies, get_cookie_header } = get_cookies(request, url, options);
-  if (state.prerendering)
+  if (state.prerendering && !state.prerendering.fallback)
     disable_search(url);
   const event = {
     cookies,
@@ -2820,7 +2851,8 @@ async function respond(request, options, state) {
   });
   let resolve_opts = {
     transformPageChunk: default_transform,
-    filterSerializedResponseHeaders: default_filter
+    filterSerializedResponseHeaders: default_filter,
+    preload: default_preload
   };
   async function resolve(event2, opts) {
     var _a2;
@@ -2838,7 +2870,8 @@ async function respond(request, options, state) {
         }
         resolve_opts = {
           transformPageChunk: opts.transformPageChunk || default_transform,
-          filterSerializedResponseHeaders: opts.filterSerializedResponseHeaders || default_filter
+          filterSerializedResponseHeaders: opts.filterSerializedResponseHeaders || default_filter,
+          preload: opts.preload || default_preload
         };
       }
       if ((_a2 = state.prerendering) == null ? void 0 : _a2.fallback) {
@@ -2886,8 +2919,7 @@ async function respond(request, options, state) {
         return new Response("not found", { status: 404 });
       }
       return await fetch(request);
-    } catch (e) {
-      const error2 = e instanceof HttpError ? e : coalesce_to_error(e);
+    } catch (error2) {
       return handle_fatal_error(event2, options, error2);
     } finally {
       event2.cookies.set = () => {
@@ -2949,8 +2981,10 @@ async function respond(request, options, state) {
       }
     }
     return response;
-  } catch (e) {
-    const error2 = coalesce_to_error(e);
+  } catch (error2) {
+    if (error2 instanceof Redirect) {
+      return redirect_response(error2.status, error2.location);
+    }
     return handle_fatal_error(event, options, error2);
   }
 }
@@ -3043,7 +3077,8 @@ class Server {
       app_template,
       app_template_contains_nonce: false,
       error_template,
-      trailing_slash: "never"
+      trailing_slash: "never",
+      version: "1669025935458"
     };
   }
   async init({ env }) {
