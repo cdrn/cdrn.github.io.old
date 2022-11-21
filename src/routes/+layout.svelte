@@ -4,10 +4,20 @@
 	import '../app.css'; // Tailwind
 </script>
 
-<div class="flex flex-col min-h-screen ml-10 mr-10">
+<div
+	class="flex flex-col min-h-screen pr-10 pl-10 bg-monokaiBackground text-monokaiYellow font-mono"
+>
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+		rel="stylesheet"
+	/>
+
 	<Header />
 
-	<main class="w-full flex flex-col flex-grow w-full min-h-full box-border m-0">
+	<main class="w-full flex flex-col flex-grow items-center w-full min-h-full box-border m-0">
 		<slot />
 	</main>
 

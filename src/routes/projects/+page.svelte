@@ -1,26 +1,21 @@
+<script>
+	import ProjectCard from '$components/ProjectCard.svelte';
+</script>
+
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>Projects</title>
+	<meta name="description" content="A list of the projects i've worked on" />
 </svelte:head>
+<div class="flex flex-col max-w-[1000px] mt-10 items-start">
+	<h1 class="mb-6 text-3xl">Projects</h1>
 
-<div class="text-column">
-	<h1>About this app</h1>
+	<p>Here's a list of personal projects i've worked on</p>
 
-	<p>
-		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
-		following into your command line and following the prompts:
-	</p>
-
-	<pre>npm create svelte@latest</pre>
-
-	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
-	</p>
-
-	<p>
-		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
-		using it with JavaScript disabled!
-	</p>
+	<div>
+		<ProjectCard
+			projectName="hello world"
+			projectDeployedUrl="https://github.com"
+			projectGithubUrl="https://github.com"
+		/>
+	</div>
 </div>

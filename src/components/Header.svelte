@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import Link from './Link.svelte';
 	import github from '$lib/images/github.svg';
 	import { PROJECTS_SLUG, BLOG_SLUG } from '../consts';
 </script>
@@ -8,13 +9,13 @@
 	<nav class="w-full mt-10 mb-10">
 		<ul class="flex flex-row space-x-6">
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">home</a>
+				<Link url="/" name="home" />
 			</li>
 			<li aria-current={$page.url.pathname === PROJECTS_SLUG ? 'page' : undefined}>
-				<a href="/projects">{PROJECTS_SLUG}</a>
+				<Link url={PROJECTS_SLUG} name={PROJECTS_SLUG} />
 			</li>
 			<li aria-current={$page.url.pathname === BLOG_SLUG ? 'page' : undefined}>
-				<a href="/about">{BLOG_SLUG}</a>
+				<Link url={BLOG_SLUG} name={BLOG_SLUG} />
 			</li>
 		</ul>
 	</nav>
