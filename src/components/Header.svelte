@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/stores';
 	import Link from './Link.svelte';
-	import github from '$lib/images/github.svg';
 	import { PROJECTS_SLUG, BLOG_SLUG } from '../consts';
 </script>
 

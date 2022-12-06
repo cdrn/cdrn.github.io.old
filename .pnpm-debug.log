@@ -1,0 +1,87 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "cdrn.github.io",
+      "version": "0.0.1",
+      "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "preview": "vite preview",
+        "test": "playwright test",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "lint": "prettier --plugin-search-dir . --check . && eslint .",
+        "format": "prettier --plugin-search-dir . --write ."
+      },
+      "devDependencies": {
+        "@fontsource/fira-mono": "^4.5.0",
+        "@neoconfetti/svelte": "^1.0.0",
+        "@playwright/test": "1.25.0",
+        "@sveltejs/adapter-auto": "next",
+        "@sveltejs/adapter-static": "1.0.0-next.48",
+        "@sveltejs/kit": "next",
+        "@types/cookie": "^0.5.1",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "adapter-static,": "link:@sveltejs/adapter-static,",
+        "autoprefixer": "^10.4.13",
+        "eslint": "^8.16.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-svelte3": "^4.0.0",
+        "postcss": "^8.4.18",
+        "prettier": "^2.6.2",
+        "prettier-plugin-svelte": "^2.7.0",
+        "svelte": "^3.46.0",
+        "svelte-check": "^2.7.1",
+        "svelte-preprocess": "^4.10.7",
+        "tailwindcss": "^3.2.2",
+        "tslib": "^2.3.1",
+        "typescript": "^4.7.4",
+        "vite": "^3.1.0"
+      },
+      "type": "module"
+    },
+    "prefix": "/Users/cdrn/Code/cdrn.github.io"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/Users/cdrn/Library/pnpm/store/v3",
+    "virtualStoreDir": "/Users/cdrn/Code/cdrn.github.io/node_modules/.pnpm"
+  },
+  "3 info pnpm": {
+    "message": "Lockfile is up-to-date, resolution step is skipped",
+    "prefix": "/Users/cdrn/Code/cdrn.github.io"
+  },
+  "4 debug pnpm:stats": {
+    "prefix": "/Users/cdrn/Code/cdrn.github.io",
+    "removed": 0
+  },
+  "5 debug pnpm:stage": {
+    "prefix": "/Users/cdrn/Code/cdrn.github.io",
+    "stage": "importing_started"
+  },
+  "6 warn pnpm:install-check": {
+    "message": "Unsupported engine for /@sveltejs/kit/1.0.0-next.553_svelte@3.52.0+vite@3.2.3: wanted: {\"node\":\">=16.14\"} (current: {\"node\":\"v14.19.2\",\"pnpm\":\"7.5.0\"})",
+    "prefix": "/Users/cdrn/Code/cdrn.github.io"
+  },
+  "7 error pnpm": {
+    "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+    "packageId": "/@sveltejs/kit/1.0.0-next.553_svelte@3.52.0+vite@3.2.3",
+    "wanted": {
+      "node": ">=16.14"
+    },
+    "current": {
+      "node": "v14.19.2",
+      "pnpm": "7.5.0"
+    },
+    "err": {
+      "name": "pnpm",
+      "message": "Unsupported engine for /@sveltejs/kit/1.0.0-next.553_svelte@3.52.0+vite@3.2.3: wanted: {\"node\":\">=16.14\"} (current: {\"node\":\"v14.19.2\",\"pnpm\":\"7.5.0\"})",
+      "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+      "stack": "pnpm: Unsupported engine for /@sveltejs/kit/1.0.0-next.553_svelte@3.52.0+vite@3.2.3: wanted: {\"node\":\">=16.14\"} (current: {\"node\":\"v14.19.2\",\"pnpm\":\"7.5.0\"})\n    at checkEngine (/snapshot/dist/pnpm.cjs)\n    at checkPackage (/snapshot/dist/pnpm.cjs)\n    at packageIsInstallable (/snapshot/dist/pnpm.cjs)\n    at pkgAllDeps (/snapshot/dist/pnpm.cjs)\n    at pickPkgsWithAllDeps (/snapshot/dist/pnpm.cjs)\n    at filterByImportersAndEngine (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs\n    at async _install (/snapshot/dist/pnpm.cjs)\n    at async mutateModules (/snapshot/dist/pnpm.cjs)\n    at async install (/snapshot/dist/pnpm.cjs)"
+    }
+  }
+}
