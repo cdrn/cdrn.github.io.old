@@ -3,8 +3,6 @@
 	<meta name="description" content="Blog" />
 </svelte:head>
 
-<div class="text-column">
-	<h1>Blog</h1>
-
+<div class="text-column text-white">
 	<p>Under construction 🚧</p>
 </div>
