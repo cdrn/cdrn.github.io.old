@@ -13,11 +13,14 @@ module.exports = {
       "monokaiGray": "#999999",
       "monokaiBackground": "#2c292d",
       "white": "#ffffff",
+      "black": "#000000",
     },
     extend: {
       boxShadow: {
         'teal': '12px 12px 0px -4px #5FB3B2',
-        'white': '6px 6px 0px -4px #FFFFFF'
+        'white': '6px 6px 0px -4px #FFFFFF',
+        'gray': '6px 6px 0px -4px #D3D3D3',
+        'black': '6px 6px 0px -4px #000000'
       }
     },
     fontFamily: {

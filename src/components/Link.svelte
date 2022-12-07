@@ -1,17 +1,16 @@
 <script>
-	import { onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
+	import { page } from '$app/stores';
 	export let name = '';
 	export let url = '';
 	let isSelectedRoute = false;
-	let currentRoute;
-	onMount(async () => {
-		currentRoute = window.location.pathname;
-		if (currentRoute === url) {
-			console.log('currentRoute', currentRoute);
-			isSelectedRoute = true;
-		}
-		console.log(currentRoute, url);
-	});
+	let currentUrl = $page.url.pathname;
+	$: currentUrl = $page.url.pathname;
+	$: if (url === currentUrl) {
+		isSelectedRoute = true;
+	} else {
+		isSelectedRoute = false;
+	}
 </script>
 
 <div>

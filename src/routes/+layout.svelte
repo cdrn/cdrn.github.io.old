@@ -17,17 +17,20 @@
 		<Header />
 
 		<main
-			class="w-full flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10"
+			class="w-screen flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10"
 		>
 			<slot />
 		</main>
 
-		<footer class="flex flex-col items-start bg-monokaiTealDark pt-10 pb-10 pl-10 pr-10">
-			<p class="text-black">
+		<footer class="flex flex-col items-start bg-monokaiTealDark py-6 space-y-1 pl-10 pr-10 mt-20">
+			<p class="text-black hover:underline pointer">
 				<a href="https://linkedin.com/in/cdrn" target="_blank" rel="noreferrer">[linkedin]</a>
 			</p>
-			<p class="text-black">
+			<p class="text-black hover:underline pointer">
 				<a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[github]</a>
+			</p>
+			<p class="text-black hover:underline pointer">
+				<a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[CV]</a>
 			</p>
 		</footer>
 	</div>

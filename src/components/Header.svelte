@@ -11,10 +11,10 @@
 				<Link url="/" name="home" />
 			</li>
 			<li aria-current={$page.url.pathname === PROJECTS_SLUG ? 'page' : undefined}>
-				<Link url={PROJECTS_SLUG} name={PROJECTS_SLUG} />
+				<Link url="/{PROJECTS_SLUG}" name={PROJECTS_SLUG} />
 			</li>
 			<li aria-current={$page.url.pathname === BLOG_SLUG ? 'page' : undefined}>
-				<Link url={BLOG_SLUG} name={BLOG_SLUG} />
+				<Link url="/{BLOG_SLUG}" name={BLOG_SLUG} />
 			</li>
 		</ul>
 	</nav>

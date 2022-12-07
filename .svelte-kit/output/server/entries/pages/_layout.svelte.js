@@ -1,13 +1,26 @@
-import { c as create_ssr_component, e as escape, b as add_attribute, d as subscribe, v as validate_component } from "../../chunks/index.js";
+import { c as create_ssr_component, b as subscribe, e as escape, d as add_attribute, v as validate_component } from "../../chunks/index.js";
 import { p as page } from "../../chunks/stores.js";
 const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $page, $$unsubscribe_page;
+  $$unsubscribe_page = subscribe(page, (value) => $page = value);
   let { name = "" } = $$props;
   let { url = "" } = $$props;
+  let isSelectedRoute = false;
+  let currentUrl = $page.url.pathname;
   if ($$props.name === void 0 && $$bindings.name && name !== void 0)
     $$bindings.name(name);
   if ($$props.url === void 0 && $$bindings.url && url !== void 0)
     $$bindings.url(url);
-  return `<div><span class="${"text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 " + escape("text-white", true)}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
+  currentUrl = $page.url.pathname;
+  {
+    if (url === currentUrl) {
+      isSelectedRoute = true;
+    } else {
+      isSelectedRoute = false;
+    }
+  }
+  $$unsubscribe_page();
+  return `<div><span class="${"text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 " + escape(isSelectedRoute ? "text-monokaiTealDark" : "text-white", true)}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
 </div>`;
 });
 const PROJECTS_SLUG = "projects";
@@ -21,8 +34,16 @@ const Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     "aria-current",
     $page.url.pathname === PROJECTS_SLUG ? "page" : void 0,
     0
-  )}>${validate_component(Link, "Link").$$render($$result, { url: PROJECTS_SLUG, name: PROJECTS_SLUG }, {}, {})}</li>
-			<li${add_attribute("aria-current", $page.url.pathname === BLOG_SLUG ? "page" : void 0, 0)}>${validate_component(Link, "Link").$$render($$result, { url: BLOG_SLUG, name: BLOG_SLUG }, {}, {})}</li></ul></nav>
+  )}>${validate_component(Link, "Link").$$render(
+    $$result,
+    {
+      url: "/" + PROJECTS_SLUG,
+      name: PROJECTS_SLUG
+    },
+    {},
+    {}
+  )}</li>
+			<li${add_attribute("aria-current", $page.url.pathname === BLOG_SLUG ? "page" : void 0, 0)}>${validate_component(Link, "Link").$$render($$result, { url: "/" + BLOG_SLUG, name: BLOG_SLUG }, {}, {})}</li></ul></nav>
 </header>`;
 });
 const styles = "";
@@ -35,10 +56,11 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 		${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
 
-		<main class="${"w-full flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10"}">${slots.default ? slots.default({}) : ``}</main>
+		<main class="${"w-screen flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10"}">${slots.default ? slots.default({}) : ``}</main>
 
-		<footer class="${"flex flex-col items-start bg-monokaiTealDark pt-10 pb-10 pl-10 pr-10"}"><p class="${"text-black"}"><a href="${"https://linkedin.com/in/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[linkedin]</a></p>
-			<p class="${"text-black"}"><a href="${"https://github.com/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[github]</a></p></footer></div>
+		<footer class="${"flex flex-col items-start bg-monokaiTealDark py-6 space-y-1 pl-10 pr-10 mt-20"}"><p class="${"text-black hover:underline pointer"}"><a href="${"https://linkedin.com/in/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[linkedin]</a></p>
+			<p class="${"text-black hover:underline pointer"}"><a href="${"https://github.com/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[github]</a></p>
+			<p class="${"text-black hover:underline pointer"}"><a href="${"https://github.com/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[CV]</a></p></footer></div>
 </div>`;
 });
 export {

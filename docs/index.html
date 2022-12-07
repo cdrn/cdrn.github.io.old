@@ -5,13 +5,13 @@
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_layout-0dd1c224.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-6422715d.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-26306398.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-d10908f6.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-9e2ae1f0.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/stores-dc0dfe96.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-376f2266.js">
+		<link href="./_app/immutable/assets/_layout-e34397ee.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/start-94b00000.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-71185dc4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-749561a5.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-99de1c43.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores-61d96c9f.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-50125fb6.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/_page.ts-e9fa0128.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_page-802cc2a3.js"><title>Home</title><!-- HEAD_svelte-40vkjn_START --><meta name="description" content="cdrn"><!-- HEAD_svelte-40vkjn_END -->
 	</head>
@@ -24,31 +24,40 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 
-		<header class="flex flex-row content-between w-full pl-10 pr-10"><nav class="w-full mt-10 mb-10"><ul class="flex flex-row space-x-6 text-[16px]"><li aria-current="page"><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-white"><a href="/">[home]</a></span>
+		<header class="flex flex-row content-between w-full pl-10 pr-10"><nav class="w-full mt-10 mb-10"><ul class="flex flex-row space-x-6 text-[16px]"><li aria-current="page"><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-monokaiTealDark"><a href="/">[home]</a></span>
 </div></li>
-			<li><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-white"><a href="projects">[projects]</a></span>
+			<li><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-white"><a href="/projects">[projects]</a></span>
 </div></li>
-			<li><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-white"><a href="blog">[blog]</a></span>
+			<li><div><span class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 text-white"><a href="/blog">[blog]</a></span>
 </div></li></ul></nav>
 </header>
 
-		<main class="w-full flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10">
+		<main class="w-screen flex flex-col flex-grow items-center w-full min-h-full box-border m-0 pr-10 pl-10">
 
-<section class="flex h-full"><div class="pt-24 pb-24 pl-24 pr-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10"><h1 class="text-[64px] text-monokaiRed">[Projects]</h1>
-	<p class="text-monokaiYellow text-[24px]">Check out some projects i&#39;ve hacked on and what i&#39;m hacking on now
+<section class="flex flex-col space-y-24 h-full"><div class="pt-24 pb-24 pl-24 pr-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10"><h1 class="text-[64px] text-monokaiRed">[Projects]</h1>
+	<p class="text-monokaiYellow text-[24px]">Come check out a (non exhaustive) list of personal projects i&#39;ve hacked on. I love to talk about
+		these!
 	</p>
-	<div><button class="px-24 py-5 border border-white shadow-white text-xl rounded-lg text-white">see all</button>
+	<div><button class="px-24 py-5 border border-white shadow-white text-xl rounded-lg text-white hover:text-black hover:bg-white hover:border-black hover:shadow-black transition ease-in-out duration-50">see all</button>
 </div>
 </div>
+	
+	
+	
+	<div><h1 class="text-monokaiRed text-4xl pb-10">[What i&#39;ve worked on]</h1>
+		<div class="shadow-teal border border-monokaiTeal rounded-2xl w-full flex justify-center items-center space-x-20 text-monokaiYellow p-10 text-[24px]"><div class="hover:underline flex justify-center items-center space-x-2"><a href="https://chainflip.io">Chainflip</a><div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 16L16 12L12 8" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 12H16" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div>
+			<div class="hover:underline flex justify-center items-center space-x-2"><a href="https://www.klarna.com/de/bank-account/">Klarna</a><div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 16L16 12L12 8" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 12H16" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div>
+			<div class="hover:underline flex justify-center items-center space-x-2"><a href="https://www.kapiche.com">Kapiche</a><div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 16L16 12L12 8" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 12H16" stroke="#EEC461" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div></div></div>
 </section></main>
 
-		<footer class="flex flex-col items-start bg-monokaiTealDark pt-10 pb-10 pl-10 pr-10"><p class="text-black"><a href="https://linkedin.com/in/cdrn" target="_blank" rel="noreferrer">[linkedin]</a></p>
-			<p class="text-black"><a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[github]</a></p></footer></div>
+		<footer class="flex flex-col items-start bg-monokaiTealDark py-6 space-y-1 pl-10 pr-10 mt-20"><p class="text-black hover:underline pointer"><a href="https://linkedin.com/in/cdrn" target="_blank" rel="noreferrer">[linkedin]</a></p>
+			<p class="text-black hover:underline pointer"><a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[github]</a></p>
+			<p class="text-black hover:underline pointer"><a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[CV]</a></p></footer></div>
 </div>
 
 
-		<script type="module" data-sveltekit-hydrate="1e2qd5q">
-			import { start } from "./_app/immutable/start-6422715d.js";
+		<script type="module" data-sveltekit-hydrate="1pqlzh3">
+			import { start } from "./_app/immutable/start-94b00000.js";
 
 			start({
 				env: {},
@@ -62,8 +71,8 @@
 					form: null
 				},
 				paths: {"base":"","assets":""},
-				target: document.querySelector('[data-sveltekit-hydrate="1e2qd5q"]').parentNode,
-				version: "1670417011719"
+				target: document.querySelector('[data-sveltekit-hydrate="1pqlzh3"]').parentNode,
+				version: "1670443327737"
 			});
 		</script>
 	</div>

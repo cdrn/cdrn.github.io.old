@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
 
@@ -13,9 +14,10 @@
 >
 	<h1 class="text-[64px] text-monokaiRed">[Projects]</h1>
 	<p class="text-monokaiYellow text-[24px]">
-		Check out some projects i've hacked on and what i'm hacking on now
+		Come check out a (non exhaustive) list of personal projects i've hacked on. I love to talk about
+		these!
 	</p>
-	<Button>see all</Button>
+	<Button onClick={() => goto('/projects')}>see all</Button>
 </div>
 
 <style>

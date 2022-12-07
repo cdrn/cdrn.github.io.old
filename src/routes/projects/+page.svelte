@@ -3,20 +3,20 @@
 </script>
 
 <svelte:head>
-	<title>Projects</title>
+	<title>cdrn - Projects</title>
 	<meta name="description" content="A list of the projects i've worked on" />
 </svelte:head>
-<div class="flex flex-col max-w-[1000px] mt-10 items-start">
-	<h1 class="mb-6 text-3xl text-monokaiTeal">Projects</h1>
-
-	<p>Here's a list of personal projects i've worked on</p>
-
-	<div>
-		<ProjectCard
-			projectName="An example project"
-			projectDescription="This is an example project description"
-			projectDeployedUrl="https://github.com"
-			projectGithubUrl="https://github.com"
-		/>
-	</div>
+<div class="flex flex-col mt-10 items-start">
+	<ProjectCard
+		projectName="This website"
+		deployedProjectUrl="https://cdrn.xyz"
+		projectGithubUrl="https://github.com/cdrn/cdrn.github.io"
+	>
+		This website is an experiment built in Svelte with Sveltekit. Credit to <a
+			class="hover:underline"
+			target="_blank"
+			href="https://caitlinmacrae.me">Caitlin Macrae</a
+		> for the designs!
+	</ProjectCard>
+	<div />
 </div>

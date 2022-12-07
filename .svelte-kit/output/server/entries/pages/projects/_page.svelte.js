@@ -1,12 +1,26 @@
-import { c as create_ssr_component, e as escape, b as add_attribute, v as validate_component } from "../../../chunks/index.js";
+import { c as create_ssr_component, b as subscribe, e as escape, d as add_attribute, v as validate_component } from "../../../chunks/index.js";
+import { p as page } from "../../../chunks/stores.js";
 const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $page, $$unsubscribe_page;
+  $$unsubscribe_page = subscribe(page, (value) => $page = value);
   let { name = "" } = $$props;
   let { url = "" } = $$props;
+  let isSelectedRoute = false;
+  let currentUrl = $page.url.pathname;
   if ($$props.name === void 0 && $$bindings.name && name !== void 0)
     $$bindings.name(name);
   if ($$props.url === void 0 && $$bindings.url && url !== void 0)
     $$bindings.url(url);
-  return `<div><span class="${"text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 " + escape("text-white", true)}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
+  currentUrl = $page.url.pathname;
+  {
+    if (url === currentUrl) {
+      isSelectedRoute = true;
+    } else {
+      isSelectedRoute = false;
+    }
+  }
+  $$unsubscribe_page();
+  return `<div><span class="${"text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 " + escape(isSelectedRoute ? "text-monokaiTealDark" : "text-white", true)}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
 </div>`;
 });
 const ProjectCard = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -22,38 +36,30 @@ const ProjectCard = create_ssr_component(($$result, $$props, $$bindings, slots) 
     $$bindings.deployedProjectUrl(deployedProjectUrl);
   if ($$props.projectGithubUrl === void 0 && $$bindings.projectGithubUrl && projectGithubUrl !== void 0)
     $$bindings.projectGithubUrl(projectGithubUrl);
-  return `<div class="${"pt-6 pb-6 mt-10 text-monokaiGray"}">////////////////////////////////////////////
-	<div class="${"space-y-4 pt-4 pb-4"}"><h2 class="${"text-lg text-monokaiTeal"}"><a${add_attribute("href", deployedProjectUrl, 0)}>${escape(projectName)}</a></h2>
-		<p class="${"text-monokaiYellow"}">${escape(projectDescription)}</p>
-		${validate_component(Link, "Link").$$render(
-    $$result,
-    {
-      name: projectGithubUrl,
-      url: projectGithubUrl
-    },
-    {},
-    {}
-  )}</div>
-	////////////////////////////////////////////
+  return `<div class="${"pt-6 pb-6 mt-10 text-monokaiGray shadow-teal border border-monokaiTeal rounded-xl w-full"}"><div><div class="${"space-y-4 pl-20 pr-20 pt-8 pb-8"}"><h2 class="${"text-2xl text-monokaiRed"}">[<a class="${"hover:underline transition ease-in-out delay-50"}"${add_attribute("href", deployedProjectUrl, 0)}>${escape(projectName)}</a>]
+			</h2>
+			<p class="${"text-monokaiYellow"}">${slots.default ? slots.default({}) : ``}</p>
+			${validate_component(Link, "Link").$$render($$result, { name: "Github", url: projectGithubUrl }, {}, {})}</div></div>
 </div>`;
 });
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `${$$result.head += `<!-- HEAD_svelte-g7q2io_START -->${$$result.title = `<title>Projects</title>`, ""}<meta name="${"description"}" content="${"A list of the projects i've worked on"}"><!-- HEAD_svelte-g7q2io_END -->`, ""}
-<div class="${"flex flex-col max-w-[1000px] mt-10 items-start"}"><h1 class="${"mb-6 text-3xl text-monokaiTeal"}">Projects</h1>
-
-	<p>Here&#39;s a list of personal projects i&#39;ve worked on</p>
-
-	<div>${validate_component(ProjectCard, "ProjectCard").$$render(
+  return `${$$result.head += `<!-- HEAD_svelte-9aqbvc_START -->${$$result.title = `<title>cdrn - Projects</title>`, ""}<meta name="${"description"}" content="${"A list of the projects i've worked on"}"><!-- HEAD_svelte-9aqbvc_END -->`, ""}
+<div class="${"flex flex-col mt-10 items-start"}">${validate_component(ProjectCard, "ProjectCard").$$render(
     $$result,
     {
-      projectName: "An example project",
-      projectDescription: "This is an example project description",
-      projectDeployedUrl: "https://github.com",
-      projectGithubUrl: "https://github.com"
+      projectName: "This website",
+      deployedProjectUrl: "https://cdrn.xyz",
+      projectGithubUrl: "https://github.com/cdrn/cdrn.github.io"
     },
     {},
-    {}
-  )}</div></div>`;
+    {
+      default: () => {
+        return `This website is an experiment built in Svelte with Sveltekit. Credit to <a class="${"hover:underline"}" target="${"_blank"}" href="${"https://caitlinmacrae.me"}">Caitlin Macrae</a> for the designs!
+	`;
+      }
+    }
+  )}
+	<div></div></div>`;
 });
 export {
   Page as default
