@@ -1,4 +1,5 @@
 <script>
+	import ProjectsSplashCard from '$components/ProjectsSplashCard.svelte';
 </script>
 
 <svelte:head>
@@ -7,7 +8,7 @@
 </svelte:head>
 
 <section class="flex h-full">
-	<h1>Hello world</h1>
+	<ProjectsSplashCard />
 </section>
 
 <style>

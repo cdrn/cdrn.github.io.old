@@ -1,12 +1,23 @@
 <script>
+	import { onMount } from 'svelte';
 	export let name = '';
 	export let url = '';
+	let isSelectedRoute = false;
+	let currentRoute;
+	onMount(async () => {
+		currentRoute = window.location.pathname;
+		if (currentRoute === url) {
+			console.log('currentRoute', currentRoute);
+			isSelectedRoute = true;
+		}
+		console.log(currentRoute, url);
+	});
 </script>
 
 <div>
 	<span
-		class="text-monokaiRed text-lg hover:text-white hover:bg-monokaiRed hover:text-monokaiBackground cursor-pointer "
-		><a href={url}>[{name}]</a></span
+		class="text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 
+		{isSelectedRoute ? 'text-monokaiTealDark' : 'text-white'}"><a href={url}>[{name}]</a></span
 	>
 </div>
 
