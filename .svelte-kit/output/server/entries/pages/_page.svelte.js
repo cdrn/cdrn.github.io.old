@@ -14,20 +14,8 @@ const Button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 </div>`;
 });
 const ProjectsSplashCard = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let { projectName = "" } = $$props;
-  let { projectDescription = "" } = $$props;
-  let { deployedProjectUrl = "" } = $$props;
-  let { projectGithubUrl = "" } = $$props;
-  if ($$props.projectName === void 0 && $$bindings.projectName && projectName !== void 0)
-    $$bindings.projectName(projectName);
-  if ($$props.projectDescription === void 0 && $$bindings.projectDescription && projectDescription !== void 0)
-    $$bindings.projectDescription(projectDescription);
-  if ($$props.deployedProjectUrl === void 0 && $$bindings.deployedProjectUrl && deployedProjectUrl !== void 0)
-    $$bindings.deployedProjectUrl(deployedProjectUrl);
-  if ($$props.projectGithubUrl === void 0 && $$bindings.projectGithubUrl && projectGithubUrl !== void 0)
-    $$bindings.projectGithubUrl(projectGithubUrl);
-  return `<div class="${"pt-24 pb-24 pl-24 pr-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10"}"><h1 class="${"text-[64px] text-monokaiRed"}">[Projects]</h1>
-	<p class="${"text-monokaiYellow text-[24px]"}">Come check out a (non exhaustive) list of personal projects i&#39;ve hacked on. I love to talk about
+  return `<div class="${"m-6 p-10 md:p-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10"}"><h1 class="${"text-[36px] md:text-[64px] text-monokaiRed"}">[Projects]</h1>
+	<p class="${"text-monokaiYellow text-[18px] md:text-[24px]"}">Come check out a (non exhaustive) list of personal projects i&#39;ve hacked on. I love to talk about
 		these!
 	</p>
 	${validate_component(Button, "Button").$$render($$result, { onClick: () => goto("/projects") }, {}, {
@@ -47,8 +35,8 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 	
 	
 	
-	<div><h1 class="${"text-monokaiRed text-4xl pb-10"}">[What i&#39;ve worked on]</h1>
-		<div class="${"shadow-teal border border-monokaiTeal rounded-2xl w-full flex justify-center items-center space-x-20 text-monokaiYellow p-10 text-[24px]"}"><div class="${"hover:underline flex justify-center items-center space-x-2"}"><a href="${"https://chainflip.io"}">Chainflip</a>${validate_component(ArrowRightCircle, "ArrowRightCircle").$$render($$result, {}, {}, {})}</div>
+	<div><h1 class="${"text-monokaiRed text-center md:text-left text-4xl pb-10"}">[What i&#39;ve worked on]</h1>
+		<div class="${"md:block flex md:flex flex-col md:flex-row shadow-teal border border-monokaiTeal rounded-2xl w-full justify-center items-center md:space-x-20 text-monokaiYellow pt-4 pb-4 md:p-10 text-[24px]"}"><div class="${"hover:underline flex justify-center items-center space-x-2"}"><a href="${"https://chainflip.io"}">Chainflip</a>${validate_component(ArrowRightCircle, "ArrowRightCircle").$$render($$result, {}, {}, {})}</div>
 			<div class="${"hover:underline flex justify-center items-center space-x-2"}"><a href="${"https://www.klarna.com/de/bank-account/"}">Klarna</a>${validate_component(ArrowRightCircle, "ArrowRightCircle").$$render($$result, {}, {}, {})}</div>
 			<div class="${"hover:underline flex justify-center items-center space-x-2"}"><a href="${"https://www.kapiche.com"}">Kapiche</a>${validate_component(ArrowRightCircle, "ArrowRightCircle").$$render($$result, {}, {}, {})}</div></div></div>
 </section>`;

@@ -49,7 +49,7 @@ const Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 const styles = "";
 const app = "";
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<div><div class="${"flex flex-col min-h-screen bg-monokaiBackground font-mono"}">
+  return `<div><div class="${"flex flex-col min-h-screen w-screen bg-monokaiBackground font-mono"}">
 		<link rel="${"preconnect"}" href="${"https://fonts.googleapis.com"}">
 		<link rel="${"preconnect"}" href="${"https://fonts.gstatic.com"}">
 		<link href="${"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"}" rel="${"stylesheet"}">

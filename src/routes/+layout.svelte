@@ -5,7 +5,7 @@
 </script>
 
 <div>
-	<div class="flex flex-col min-h-screen bg-monokaiBackground font-mono">
+	<div class="flex flex-col min-h-screen w-screen bg-monokaiBackground font-mono">
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
