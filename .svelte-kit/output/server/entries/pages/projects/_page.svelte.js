@@ -1,4 +1,4 @@
-import { c as create_ssr_component, b as add_attribute, e as escape, v as validate_component } from "../../../chunks/index.js";
+import { c as create_ssr_component, e as escape, b as add_attribute, v as validate_component } from "../../../chunks/index.js";
 const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { name = "" } = $$props;
   let { url = "" } = $$props;
@@ -6,7 +6,7 @@ const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.name(name);
   if ($$props.url === void 0 && $$bindings.url && url !== void 0)
     $$bindings.url(url);
-  return `<div><span class="${"text-monokaiRed text-lg hover:text-white hover:bg-monokaiRed hover:text-monokaiBackground cursor-pointer "}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
+  return `<div><span class="${"text-white cursor-pointer hover:text-monokaiTeal transition ease-in-out delay-50 " + escape("text-white", true)}"><a${add_attribute("href", url, 0)}>[${escape(name)}]</a></span>
 </div>`;
 });
 const ProjectCard = create_ssr_component(($$result, $$props, $$bindings, slots) => {
