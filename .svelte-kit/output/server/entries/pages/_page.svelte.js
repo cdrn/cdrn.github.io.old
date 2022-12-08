@@ -29,7 +29,7 @@ const ArrowRightCircle = create_ssr_component(($$result, $$props, $$bindings, sl
   return `<div><svg width="${"24"}" height="${"24"}" viewBox="${"0 0 24 24"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"><path d="${"M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"}" stroke="${"#EEC461"}" stroke-width="${"2"}" stroke-linecap="${"round"}" stroke-linejoin="${"round"}"></path><path d="${"M12 16L16 12L12 8"}" stroke="${"#EEC461"}" stroke-width="${"2"}" stroke-linecap="${"round"}" stroke-linejoin="${"round"}"></path><path d="${"M8 12H16"}" stroke="${"#EEC461"}" stroke-width="${"2"}" stroke-linecap="${"round"}" stroke-linejoin="${"round"}"></path></svg></div>`;
 });
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `${$$result.head += `<!-- HEAD_svelte-40vkjn_START -->${$$result.title = `<title>Home</title>`, ""}<meta name="${"description"}" content="${"cdrn"}"><!-- HEAD_svelte-40vkjn_END -->`, ""}
+  return `${$$result.head += `<!-- HEAD_svelte-10kry9j_START -->${$$result.title = `<title>cdrn</title>`, ""}<meta name="${"description"}" content="${"cdrn"}"><!-- HEAD_svelte-10kry9j_END -->`, ""}
 
 <section class="${"flex flex-col space-y-24 h-full"}">${validate_component(ProjectsSplashCard, "ProjectsSplashCard").$$render($$result, {}, {}, {})}
 	

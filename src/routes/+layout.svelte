@@ -30,7 +30,11 @@
 				<a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[github]</a>
 			</p>
 			<p class="text-black hover:underline pointer">
-				<a href="https://github.com/cdrn" target="_blank" rel="noreferrer">[CV]</a>
+				<a
+					href="https://docs.google.com/document/d/1xkAPOkOUZK7q7JhWIjJfVthfmSAb5VBExNWBejDMpdQ/edit?usp=sharing"
+					target="_blank"
+					rel="noreferrer">[CV]</a
+				>
 			</p>
 		</footer>
 	</div>

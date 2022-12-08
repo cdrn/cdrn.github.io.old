@@ -60,7 +60,7 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 		<footer class="${"flex flex-col items-start bg-monokaiTealDark py-6 space-y-1 pl-10 pr-10 mt-20"}"><p class="${"text-black hover:underline pointer"}"><a href="${"https://linkedin.com/in/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[linkedin]</a></p>
 			<p class="${"text-black hover:underline pointer"}"><a href="${"https://github.com/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[github]</a></p>
-			<p class="${"text-black hover:underline pointer"}"><a href="${"https://github.com/cdrn"}" target="${"_blank"}" rel="${"noreferrer"}">[CV]</a></p></footer></div>
+			<p class="${"text-black hover:underline pointer"}"><a href="${"https://docs.google.com/document/d/1xkAPOkOUZK7q7JhWIjJfVthfmSAb5VBExNWBejDMpdQ/edit?usp=sharing"}" target="${"_blank"}" rel="${"noreferrer"}">[CV]</a></p></footer></div>
 </div>`;
 });
 export {

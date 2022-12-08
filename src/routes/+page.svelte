@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>cdrn</title>
 	<meta name="description" content="cdrn" />
 </svelte:head>
 
