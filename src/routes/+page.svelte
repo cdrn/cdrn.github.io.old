@@ -8,14 +8,14 @@
 	<meta name="description" content="cdrn" />
 </svelte:head>
 
-<section class="flex flex-col space-y-24 h-full">
+<section class="flex flex-col space-y-24 h-full justify-center items-center">
 	<ProjectsSplashCard />
 	<!-- Blog posts cards -->
 	<!-- <div>
 		<h1 class="text-monokaiRed text-4xl">[Posts]</h1>
 	</div> -->
 	<!-- Career jobs card -->
-	<div>
+	<div class="p-6 w-full">
 		<h1 class="text-monokaiRed text-center md:text-left text-4xl pb-10">[What i've worked on]</h1>
 		<div
 			class="md:block flex md:flex flex-col md:flex-row shadow-teal border border-monokaiTeal rounded-2xl w-full justify-center items-center

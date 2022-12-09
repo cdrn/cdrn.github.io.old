@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="m-6 p-10 md:p-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10"
+	class="m-6 p-10 md:p-24 mt-24 rounded-2xl border border-monokaiTeal shadow-teal flex flex-col justify-center items-center space-y-10 max-w-[1200px]"
 >
 	<h1 class="text-[36px] md:text-[64px] text-monokaiRed">[Projects]</h1>
 	<p class="text-monokaiYellow text-[18px] md:text-[24px]">
