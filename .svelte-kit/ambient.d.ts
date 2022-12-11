@@ -53,6 +53,7 @@ declare module '$env/static/private' {
 	export const USER: string;
 	export const NVM_DIR: string;
 	export const npm_package_scripts_check_watch: string;
+	export const npm_package_dependencies_mdsvex: string;
 	export const COMMAND_MODE: string;
 	export const npm_package_devDependencies__sveltejs_adapter_static: string;
 	export const PNPM_SCRIPT_SRC_DIR: string;
@@ -162,6 +163,7 @@ declare module '$env/dynamic/private' {
 		USER: string;
 		NVM_DIR: string;
 		npm_package_scripts_check_watch: string;
+		npm_package_dependencies_mdsvex: string;
 		COMMAND_MODE: string;
 		npm_package_devDependencies__sveltejs_adapter_static: string;
 		PNPM_SCRIPT_SRC_DIR: string;

@@ -11,9 +11,9 @@
 <section class="flex flex-col space-y-24 h-full justify-center items-center">
 	<ProjectsSplashCard />
 	<!-- Blog posts cards -->
-	<!-- <div>
-		<h1 class="text-monokaiRed text-4xl">[Posts]</h1>
-	</div> -->
+	<div>
+		<h1 class="text-monokaiRed text-4xl md:text-left text-center">[Posts]</h1>
+	</div>
 	<!-- Career jobs card -->
 	<div class="p-6 w-full">
 		<h1 class="text-monokaiRed text-center md:text-left text-4xl pb-10">[What i've worked on]</h1>
