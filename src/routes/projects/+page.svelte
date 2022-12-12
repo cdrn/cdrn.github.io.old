@@ -15,6 +15,7 @@
 		This website is an experiment built in Svelte with Sveltekit. Credit to <a
 			class="hover:underline"
 			target="_blank"
+			rel="noreferrer"
 			href="https://caitlinmacrae.me">Caitlin Macrae</a
 		> for the designs!
 	</ProjectCard>

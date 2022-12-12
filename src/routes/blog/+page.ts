@@ -1,8 +1,19 @@
-import { dev } from '$app/environment';
-
-// we don't need any JS on this page, though we'll load
-// it in dev so that we get hot module replacement
-export const csr = dev;
+import { manifest } from './manifest';
+/**
+ * Load in all the blog posts we have (using the client), grab the important
+ * parts (date, title, body) and pass it to the index page so we an render
+ * all of the posts in date order
+ */
+export async function load({ params }: { params: any }) {
+	try {
+		const postPromises = manifest.map((filename: string) => import(`./${filename}.md`));
+		const posts = await Promise.all(postPromises);
+		const postMetadata = posts.map((post) => post.metadata);
+		console.log({ postMetadata });
+	} catch (e) {
+		console.error('WRONG dynamic import - update the manifest', e);
+	}
+}
 
 // since there's no dynamic data here, we can prerender
 // it so that it gets served as a static asset in production

@@ -1,5 +1,6 @@
 <script>
 	import ProjectsSplashCard from '$components/ProjectsSplashCard.svelte';
+	import BlogPostCard from '$components/BlogPostCard.svelte';
 	import ArrowRightCircle from '$lib/images/ArrowRightCircle.svelte';
 </script>
 
@@ -11,8 +12,9 @@
 <section class="flex flex-col space-y-24 h-full justify-center items-center">
 	<ProjectsSplashCard />
 	<!-- Blog posts cards -->
-	<div>
+	<div class="p-6 w-full">
 		<h1 class="text-monokaiRed text-4xl md:text-left text-center">[Posts]</h1>
+		<BlogPostCard postName="first post" />
 	</div>
 	<!-- Career jobs card -->
 	<div class="p-6 w-full">
