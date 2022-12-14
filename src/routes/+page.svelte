@@ -2,6 +2,10 @@
 	import ProjectsSplashCard from '$components/ProjectsSplashCard.svelte';
 	import BlogPostCard from '$components/BlogPostCard.svelte';
 	import ArrowRightCircle from '$lib/images/ArrowRightCircle.svelte';
+
+	export let data = [{ date: '', title: '' }];
+
+	console.log(data);
 </script>
 
 <svelte:head>
@@ -13,8 +17,12 @@
 	<ProjectsSplashCard />
 	<!-- Blog posts cards -->
 	<div class="p-6 w-full">
-		<h1 class="text-monokaiRed text-4xl md:text-left text-center">[Posts]</h1>
-		<BlogPostCard postName="first post" />
+		<h1 class="text-monokaiRed text-4xl md:text-left text-center pb-10">[Posts]</h1>
+		<div class="flex overflow-x-hidden space-x-10 py-4">
+			{#each Object.values(data) as post}
+				<BlogPostCard postName={post.title} date={post.date} sample="lorem ipsum dolor etc." />
+			{/each}
+		</div>
 	</div>
 	<!-- Career jobs card -->
 	<div class="p-6 w-full">
