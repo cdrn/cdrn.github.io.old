@@ -3,8 +3,12 @@
 	import BlogPostCard from '$components/BlogPostCard.svelte';
 	import ArrowRightCircle from '$lib/images/ArrowRightCircle.svelte';
 
-	export let data = [{ date: '', title: '' }];
+	// Default shape of the expected blog object. Not sure how to type properly in this version of sveltekit.
+	export let data = [{ metadata: { date: '', title: '', excerpt: '' }, filename: '' }];
 
+	let sortedPosts = Object.values(data)
+		.sort((x, y) => Number(new Date(x?.metadata.date)) - Number(new Date(y?.metadata.date))) // dumb linting rule forces us to coerce to number -- despite dates supporting arithmetic operation
+		.slice(0, 3);
 	console.log(data);
 </script>
 
@@ -18,9 +22,14 @@
 	<!-- Blog posts cards -->
 	<div class="p-6 w-full">
 		<h1 class="text-monokaiRed text-4xl md:text-left text-center pb-10">[Posts]</h1>
-		<div class="flex overflow-x-hidden space-x-10 py-4">
-			{#each Object.values(data) as post}
-				<BlogPostCard postName={post.title} date={post.date} sample="lorem ipsum dolor etc." />
+		<div class="flex space-x-10 py-4 grow-0">
+			{#each sortedPosts as post}
+				<BlogPostCard
+					postName={post?.metadata.title}
+					date={new Date(post?.metadata.date)}
+					sample={post?.metadata.excerpt}
+					filename={post?.filename}
+				/>
 			{/each}
 		</div>
 	</div>

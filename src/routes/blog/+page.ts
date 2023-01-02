@@ -1,3 +1,4 @@
+import { validateLocaleAndSetLanguage } from 'typescript';
 import { manifest } from './manifest';
 /**
  * Load in all the blog posts we have (using the client), grab the important
@@ -6,7 +7,12 @@ import { manifest } from './manifest';
  */
 export async function load({ params }: { params: any }) {
 	try {
-		const postPromises = manifest.map((filename: string) => import(`./${filename}.md`));
+		const postPromises = manifest.map((filename: string) =>
+			// Add the filename to the returned promise to construct link
+			import(`./${filename}.md`).then((val) => {
+				return { ...val, filename };
+			})
+		);
 		const posts = await Promise.all(postPromises);
 		const postMetadata = posts.map((post) => post.metadata);
 		console.log({ postMetadata });

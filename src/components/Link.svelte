@@ -1,6 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { page } from '$app/stores';
+
 	export let name = '';
 	export let url = '';
 	let isSelectedRoute = false;
