@@ -2,10 +2,4 @@
 // We're doing this instead of using a server side route to preserve our ability to statically
 // bundle the blog
 // !!! UPDATE THIS TO DISPLAY NEW POSTS !!! //
-export const manifest = [
-	'first-post',
-	'second-post',
-	'first-post copy 2',
-	'first-post copy 3',
-	'first-post copy 4'
-];
+export const manifest = ['first-post', 'second-post', 'internet-delenda-est'];

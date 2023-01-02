@@ -4,7 +4,7 @@
 </script>
 
 <article class="text-white">
-	<h1>{data.title}</h1>
-	<p>Published: {data.date}</p>
+	<h1 class="text-monokaiRed text-4xl pb-4">{data.title}</h1>
+	<p class="text-monokaiYellow pb-10">[Published: {data.date}]</p>
 	<svelte:component this={data.content} />
 </article>

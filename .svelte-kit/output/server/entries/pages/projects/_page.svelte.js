@@ -54,7 +54,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {},
     {
       default: () => {
-        return `This website is an experiment built in Svelte with Sveltekit. Credit to <a class="${"hover:underline"}" target="${"_blank"}" href="${"https://caitlinmacrae.me"}">Caitlin Macrae</a> for the designs!
+        return `This website is an experiment built in Svelte with Sveltekit. Credit to <a class="${"hover:underline"}" target="${"_blank"}" rel="${"noreferrer"}" href="${"https://caitlinmacrae.me"}">Caitlin Macrae</a> for the designs!
 	`;
       }
     }

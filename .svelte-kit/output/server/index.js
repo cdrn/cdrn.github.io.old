@@ -640,7 +640,7 @@ async function handle_fatal_error(event, options, error2) {
     "application/json",
     "text/html"
   ]);
-  if (has_data_suffix(event.url.pathname) || type === "application/json") {
+  if (has_data_suffix(new URL(event.request.url).pathname) || type === "application/json") {
     return new Response(JSON.stringify(body), {
       status,
       headers: { "content-type": "application/json; charset=utf-8" }
@@ -774,15 +774,24 @@ function is_action_json_request(event) {
   return accept === "application/json" && event.request.method === "POST";
 }
 async function handle_action_json_request(event, options, server) {
-  const actions = server.actions;
+  const actions = server == null ? void 0 : server.actions;
   if (!actions) {
-    maybe_throw_migration_error(server);
-    return new Response("POST method not allowed. No actions exist for this page", {
-      status: 405,
-      headers: {
-        allow: "GET"
+    if (server) {
+      maybe_throw_migration_error(server);
+    }
+    const no_actions_error = error(405, "POST method not allowed. No actions exist for this page");
+    return action_json(
+      {
+        type: "error",
+        error: await handle_error_and_jsonify(event, options, no_actions_error)
+      },
+      {
+        status: no_actions_error.status,
+        headers: {
+          allow: "GET"
+        }
       }
-    });
+    );
   }
   check_named_default_separate(actions);
   try {
@@ -1691,23 +1700,36 @@ async function render_response({
     }
   }
   if (page_config.csr) {
+    const opts = [
+      `env: ${s(options.public_env)}`,
+      `paths: ${s(options.paths)}`,
+      `target: document.querySelector('[data-sveltekit-hydrate="${target}"]').parentNode`,
+      `version: ${s(options.version)}`
+    ];
+    if (page_config.ssr) {
+      const hydrate = [
+        `node_ids: [${branch.map(({ node }) => node.index).join(", ")}]`,
+        `data: ${serialized.data}`,
+        `form: ${serialized.form}`
+      ];
+      if (status !== 200) {
+        hydrate.push(`status: ${status}`);
+      }
+      if (error2) {
+        hydrate.push(`error: ${uneval(error2)}`);
+      }
+      if (options.embedded) {
+        hydrate.push(`params: ${uneval(event.params)}`, `route: ${s(event.route)}`);
+      }
+      opts.push(`hydrate: {
+					${hydrate.join(",\n					")}
+				}`);
+    }
     const init_app = `
 			import { start } from ${s(prefixed(entry.file))};
 
 			start({
-				env: ${s(options.public_env)},
-				hydrate: ${page_config.ssr ? `{
-					status: ${status},
-					error: ${uneval(error2)},
-					node_ids: [${branch.map(({ node }) => node.index).join(", ")}],
-					params: ${uneval(event.params)},
-					route: ${s(event.route)},
-					data: ${serialized.data},
-					form: ${serialized.form}
-				}` : "null"},
-				paths: ${s(options.paths)},
-				target: document.querySelector('[data-sveltekit-hydrate="${target}"]').parentNode,
-				version: ${s(options.version)}
+				${opts.join(",\n				")}
 			});
 		`;
     for (const dep of modulepreloads) {
@@ -1861,9 +1883,7 @@ async function render_page(event, route, page, options, state, resolve_opts) {
   state.initiator = route;
   if (is_action_json_request(event)) {
     const node = await options.manifest._.nodes[page.leaf]();
-    if (node.server) {
-      return handle_action_json_request(event, options, node.server);
-    }
+    return handle_action_json_request(event, options, node == null ? void 0 : node.server);
   }
   try {
     const nodes = await Promise.all([
@@ -2120,9 +2140,8 @@ function once(fn) {
     return result = fn();
   };
 }
-const INVALIDATED_HEADER = "x-sveltekit-invalidated";
-async function render_data(event, route, options, state, trailing_slash) {
-  var _a;
+const INVALIDATED_PARAM = "x-sveltekit-invalidated";
+async function render_data(event, route, options, state, invalidated_data_nodes, trailing_slash) {
   if (!route.page) {
     return new Response(void 0, {
       status: 404
@@ -2130,11 +2149,10 @@ async function render_data(event, route, options, state, trailing_slash) {
   }
   try {
     const node_ids = [...route.page.layouts, route.page.leaf];
-    const invalidated = ((_a = event.url.searchParams.get(INVALIDATED_HEADER)) == null ? void 0 : _a.split("_").map(Boolean)) ?? node_ids.map(() => true);
-    event.url.searchParams.delete(INVALIDATED_HEADER);
+    const invalidated = invalidated_data_nodes ?? node_ids.map(() => true);
     let aborted = false;
     const url = new URL(event.url);
-    url.pathname = normalize_path(strip_data_suffix(url.pathname), trailing_slash);
+    url.pathname = normalize_path(url.pathname, trailing_slash);
     const new_event = { ...event, url };
     const functions = node_ids.map((n, i) => {
       return once(async () => {
@@ -2371,10 +2389,7 @@ const decode = decodeURIComponent;
 function get_cookies(request, url, dev, trailing_slash) {
   const header = request.headers.get("cookie") ?? "";
   const initial_cookies = parse_1(header, { decode });
-  const normalized_url = normalize_path(
-    has_data_suffix(url.pathname) ? strip_data_suffix(url.pathname) : url.pathname,
-    trailing_slash
-  );
+  const normalized_url = normalize_path(url.pathname, trailing_slash);
   const default_path = normalized_url.split("/").slice(0, -1).join("/") || "/";
   if (dev) {
     for (const name of Object.keys(cookie_paths)) {
@@ -2762,18 +2777,60 @@ function normalize_fetch_input(info, init2, url) {
   }
   return new Request(typeof info === "string" ? new URL(info, url) : info, init2);
 }
+function validator(expected) {
+  const set = new Set(expected);
+  function validate(module, route_id) {
+    if (!module)
+      return;
+    for (const key2 in module) {
+      if (key2[0] !== "_" && !set.has(key2)) {
+        const valid = expected.join(", ");
+        throw new Error(
+          `Invalid export '${key2}'${route_id ? ` in ${route_id}` : ""} (valid exports are ${valid}, or anything with a '_' prefix)`
+        );
+      }
+    }
+  }
+  return validate;
+}
+const validate_common_exports = validator([
+  "load",
+  "prerender",
+  "csr",
+  "ssr",
+  "trailingSlash"
+]);
+const validate_page_server_exports = validator([
+  "load",
+  "prerender",
+  "csr",
+  "ssr",
+  "actions",
+  "trailingSlash"
+]);
+const validate_server_exports = validator([
+  "GET",
+  "POST",
+  "PATCH",
+  "PUT",
+  "DELETE",
+  "prerender",
+  "trailingSlash"
+]);
 const default_transform = ({ html }) => html;
 const default_filter = () => false;
 const default_preload = ({ type }) => type === "js" || type === "css";
 async function respond(request, options, state) {
-  var _a, _b, _c;
+  var _a, _b, _c, _d;
   let url = new URL(request.url);
   if (options.csrf.check_origin) {
     const forbidden = request.method === "POST" && request.headers.get("origin") !== url.origin && is_form_content_type(request);
     if (forbidden) {
-      return new Response(`Cross-site ${request.method} form submissions are forbidden`, {
-        status: 403
-      });
+      const csrf_error = error(403, `Cross-site ${request.method} form submissions are forbidden`);
+      if (request.headers.get("accept") === "application/json") {
+        return json(csrf_error.body, { status: csrf_error.status });
+      }
+      return new Response(csrf_error.body.message, { status: csrf_error.status });
     }
   }
   let decoded;
@@ -2791,9 +2848,14 @@ async function respond(request, options, state) {
     decoded = decoded.slice(options.paths.base.length) || "/";
   }
   const is_data_request = has_data_suffix(decoded);
-  if (is_data_request)
+  let invalidated_data_nodes;
+  if (is_data_request) {
     decoded = strip_data_suffix(decoded) || "/";
-  if (!((_b = state.prerendering) == null ? void 0 : _b.fallback)) {
+    url.pathname = strip_data_suffix(url.pathname) || "/";
+    invalidated_data_nodes = (_b = url.searchParams.get(INVALIDATED_PARAM)) == null ? void 0 : _b.split("_").map(Boolean);
+    url.searchParams.delete(INVALIDATED_PARAM);
+  }
+  if (!((_c = state.prerendering) == null ? void 0 : _c.fallback)) {
     const matchers = await options.manifest._.matchers();
     for (const candidate of options.manifest._.routes) {
       const match = candidate.pattern.exec(decoded);
@@ -2840,7 +2902,8 @@ async function respond(request, options, state) {
         }
       }
     },
-    url
+    url,
+    isDataRequest: is_data_request
   };
   const removed = (property, replacement, suffix = "") => ({
     get: () => {
@@ -2878,13 +2941,17 @@ async function respond(request, options, state) {
           ...route.page.layouts.map((n) => n == void 0 ? n : options.manifest._.nodes[n]()),
           options.manifest._.nodes[route.page.leaf]()
         ]);
+        if (false)
+          ;
         trailing_slash = get_option(nodes, "trailingSlash");
       } else if (route.endpoint) {
         const node = await route.endpoint();
         trailing_slash = node.trailingSlash;
+        if (false)
+          ;
       }
       const normalized = normalize_path(url.pathname, trailing_slash ?? "never");
-      if (normalized !== url.pathname && !((_c = state.prerendering) == null ? void 0 : _c.fallback)) {
+      if (normalized !== url.pathname && !((_d = state.prerendering) == null ? void 0 : _d.fallback)) {
         return new Response(void 0, {
           status: 301,
           headers: {
@@ -3000,7 +3067,14 @@ async function respond(request, options, state) {
       if (route) {
         let response;
         if (is_data_request) {
-          response = await render_data(event2, route, options, state, trailing_slash ?? "never");
+          response = await render_data(
+            event2,
+            route,
+            options,
+            state,
+            invalidated_data_nodes,
+            trailing_slash ?? "never"
+          );
         } else if (route.endpoint && (!route.page || is_endpoint_request(event2))) {
           response = await render_endpoint(event2, await route.endpoint(), state);
         } else if (route.page) {
@@ -3111,6 +3185,7 @@ class Server {
         check_origin: true
       },
       dev: false,
+      embedded: false,
       handle_error: (error2, event) => {
         return this.options.hooks.handleError({
           error: error2,
@@ -3130,7 +3205,7 @@ class Server {
       app_template,
       app_template_contains_nonce: false,
       error_template,
-      version: "1670505952592"
+      version: "1672671403188"
     };
   }
   async init({ env }) {

@@ -7,7 +7,7 @@
 	export let data = [{ metadata: { date: '', title: '', excerpt: '' }, filename: '' }];
 
 	let sortedPosts = Object.values(data)
-		.sort((x, y) => Number(new Date(x?.metadata.date)) - Number(new Date(y?.metadata.date))) // dumb linting rule forces us to coerce to number -- despite dates supporting arithmetic operation
+		.sort((x, y) => Number(new Date(y?.metadata.date)) - Number(new Date(x?.metadata.date))) // dumb linting rule forces us to coerce to number -- despite dates supporting arithmetic operation
 		.slice(0, 3);
 	console.log(data);
 </script>

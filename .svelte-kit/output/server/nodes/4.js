@@ -1,9 +1,9 @@
-import * as shared from '../entries/pages/projects/_page.ts.js';
+import * as shared from '../entries/pages/blog/_slug_/_page.ts.js';
 
 export const index = 4;
-export const component = async () => (await import('../entries/pages/projects/_page.svelte.js')).default;
-export const file = '_app/immutable/components/pages/projects/_page.svelte-7ab9edda.js';
+export const component = async () => (await import('../entries/pages/blog/_slug_/_page.svelte.js')).default;
+export const file = '_app/immutable/components/pages/blog/_slug_/_page.svelte-00befe13.js';
 export { shared };
-export const imports = ["_app/immutable/components/pages/projects/_page.svelte-7ab9edda.js","_app/immutable/chunks/index-71185dc4.js","_app/immutable/chunks/stores-61d96c9f.js","_app/immutable/chunks/singletons-749561a5.js","_app/immutable/modules/pages/projects/_page.ts-a89ef4b1.js","_app/immutable/chunks/environment-1100b7bc.js","_app/immutable/chunks/_page-c5ca430c.js"];
+export const imports = ["_app/immutable/components/pages/blog/_slug_/_page.svelte-00befe13.js","_app/immutable/chunks/index-6b7eb8b0.js","_app/immutable/modules/pages/blog/_slug_/_page.ts-e8485300.js","_app/immutable/chunks/preload-helper-9b728935.js","_app/immutable/chunks/dynamic-import-helper-24e4f478.js","_app/immutable/chunks/_page-764e049d.js"];
 export const stylesheets = [];
 export const fonts = [];

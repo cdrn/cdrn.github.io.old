@@ -1,4 +1,4 @@
-import { d as dev } from "../../../chunks/environment.js";
+const dev = false;
 const csr = dev;
 const prerender = true;
 export {

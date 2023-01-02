@@ -15,7 +15,6 @@ export async function load({ params }: { params: any }) {
 		);
 		const posts = await Promise.all(postPromises);
 		const postMetadata = posts.map((post) => post.metadata);
-		console.log({ postMetadata });
 	} catch (e) {
 		console.error('WRONG dynamic import - update the manifest', e);
 	}
