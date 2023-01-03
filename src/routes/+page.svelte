@@ -22,7 +22,7 @@
 	<!-- Blog posts cards -->
 	<div class="p-6 w-full">
 		<h1 class="text-monokaiRed text-4xl md:text-left text-center pb-10">[Posts]</h1>
-		<div class="flex space-x-10 py-4 grow-0">
+		<div class="flex flex-col md:space-x-10 md:flex-row items-center space-y-10 md:space-y-0 py-4">
 			{#each sortedPosts as post}
 				<BlogPostCard
 					postName={post?.metadata.title}
