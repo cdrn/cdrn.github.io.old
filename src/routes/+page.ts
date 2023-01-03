@@ -1,4 +1,4 @@
-import { manifest } from './blog/manifest';
+import { manifest } from './blog/posts/manifest';
 /**
  * Load in all the blog posts we have (using the client), grab the important
  * parts (date, title, body) and pass it to the index page so we an render
@@ -8,13 +8,11 @@ export async function load({ params }: { params: any }) {
 	try {
 		const postPromises = manifest.map((filename: string) =>
 			// Add the filename to the returned promise to construct link
-			import(`./blog/${filename}.md`).then((val) => {
+			import(`./blog/posts/${filename}.md`).then((val) => {
 				return { ...val, filename };
 			})
 		);
-		console.log('promises constructed');
 		const posts = await Promise.all(postPromises);
-		console.log({ posts });
 		return posts;
 	} catch (e) {
 		console.error('WRONG dynamic import - update the manifest', e);

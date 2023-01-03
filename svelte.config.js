@@ -1,6 +1,10 @@
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
 import { mdsvex } from 'mdsvex'
+import { manifest } from './src/routes/blog/posts/manifest.js'
+
+
+const mappedManifest = manifest.map(entry => `/blog/${entry}`)
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -24,7 +28,12 @@ const config = {
 			fallback: null,
 			precompress: false,
 			strict: true
-		  })
+		  }),
+		  prerender: {
+			// Svelte doesn't understand how to prerender dynamic routes unless there's some 
+			// explicit pointer to them
+			entries: mappedManifest
+		  }
 
 	}
 

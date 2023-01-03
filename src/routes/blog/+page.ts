@@ -1,5 +1,5 @@
 import { validateLocaleAndSetLanguage } from 'typescript';
-import { manifest } from './manifest';
+import { manifest } from './posts/manifest';
 /**
  * Load in all the blog posts we have (using the client), grab the important
  * parts (date, title, body) and pass it to the index page so we an render
