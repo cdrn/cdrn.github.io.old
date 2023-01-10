@@ -1,9 +1,16 @@
 ---
 title: Internet delenda est 
 date: "2023-01-02"
-excerpt: The internet must be destroyed.
+excerpt: Furthermore, the internet must be destroyed.
 ---
 
-Hello, I am _Post One._
+This is a text pre-amble to the main text. I am testing the style of the text.
 
-**Nice to meet you!**
+# Header 1
+
+## Header 2
+
+_italic_
+
+**bold**
+
